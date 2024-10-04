@@ -82,6 +82,20 @@ protected:
     class UInputAction* IA_Move;
     UPROPERTY(EditDefaultsOnly, Category = "Input")
     class UInputAction* IA_Jump;
+    UPROPERTY(EditDefaultsOnly, Category = "Input")
+    class UInputAction* IA_Equip;
+    UPROPERTY(EditDefaultsOnly, Category = "Input")
+    class UInputAction* IA_Crouch;
+    UPROPERTY(EditDefaultsOnly, Category = "Input")
+    class UInputAction* IA_Aim;
+    UPROPERTY(EditDefaultsOnly, Category = "Input")
+    class UInputAction* IA_Fire;
+    UPROPERTY(EditDefaultsOnly, Category = "Input")
+    class UInputAction* IA_Reload;
+    UPROPERTY(EditDefaultsOnly, Category = "Input")
+    class UInputAction* IA_ThrowGrenade;
+    UPROPERTY(EditDefaultsOnly, Category = "Input")
+    class UInputAction* IA_Run;
 
     void Turn(const struct FInputActionValue& inputValue);
     void Move(const struct FInputActionValue& inputValue);
@@ -89,10 +103,12 @@ protected:
 
     UPROPERTY(EditAnywhere, Category = PlayerSetting)
     float WalkSpeed = 600;
+    float RunSpeed = 1200;
     FVector Direction;
 
     void PlayerMove();
-
+    void RunButtonPressed();
+    void RunButtonReleased();
 	void EquipButtonPressed();
 	void CrouchButtonPressed();
 	void ReloadButtonPressed();

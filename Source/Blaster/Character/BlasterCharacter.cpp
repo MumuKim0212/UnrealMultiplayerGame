@@ -489,16 +489,27 @@ void ABlasterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
         PlayerInput->BindAction(IA_Turn, ETriggerEvent::Triggered, this, &ABlasterCharacter::Turn);
         PlayerInput->BindAction(IA_Move, ETriggerEvent::Triggered, this, &ABlasterCharacter::Move);
         PlayerInput->BindAction(IA_Jump, ETriggerEvent::Started, this, &ABlasterCharacter::InputJump);
+        PlayerInput->BindAction(IA_Equip, ETriggerEvent::Started, this, &ABlasterCharacter::EquipButtonPressed);
+        PlayerInput->BindAction(IA_Crouch, ETriggerEvent::Started, this, &ABlasterCharacter::CrouchButtonPressed);
+        PlayerInput->BindAction(IA_Aim, ETriggerEvent::Started, this, &ABlasterCharacter::AimButtonPressed);
+        PlayerInput->BindAction(IA_Aim, ETriggerEvent::Completed, this, &ABlasterCharacter::AimButtonReleased);
+        PlayerInput->BindAction(IA_Fire, ETriggerEvent::Started, this, &ABlasterCharacter::FireButtonPressed);
+        PlayerInput->BindAction(IA_Fire, ETriggerEvent::Completed, this, &ABlasterCharacter::FireButtonReleased);
+        PlayerInput->BindAction(IA_Reload, ETriggerEvent::Started, this, &ABlasterCharacter::ReloadButtonPressed);
+        PlayerInput->BindAction(IA_ThrowGrenade, ETriggerEvent::Started, this, &ABlasterCharacter::GrenadeButtonPressed);
+        PlayerInput->BindAction(IA_Run, ETriggerEvent::Started, this, &ABlasterCharacter::RunButtonPressed);
+        PlayerInput->BindAction(IA_Run, ETriggerEvent::Completed, this, &ABlasterCharacter::RunButtonReleased);
+
     }
 
-	PlayerInputComponent->BindAction("Equip", IE_Pressed, this, &ABlasterCharacter::EquipButtonPressed);
-	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &ABlasterCharacter::CrouchButtonPressed);
-	PlayerInputComponent->BindAction("Aim", IE_Pressed, this, &ABlasterCharacter::AimButtonPressed);
-	PlayerInputComponent->BindAction("Aim", IE_Released, this, &ABlasterCharacter::AimButtonReleased);
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ABlasterCharacter::FireButtonPressed);
-	PlayerInputComponent->BindAction("Fire", IE_Released, this, &ABlasterCharacter::FireButtonReleased);
-	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &ABlasterCharacter::ReloadButtonPressed);
-	PlayerInputComponent->BindAction("ThrowGrenade", IE_Pressed, this, &ABlasterCharacter::GrenadeButtonPressed);
+	//PlayerInputComponent->BindAction("Equip", IE_Pressed, this, &ABlasterCharacter::EquipButtonPressed);
+	//PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &ABlasterCharacter::CrouchButtonPressed);
+	//PlayerInputComponent->BindAction("Aim", IE_Pressed, this, &ABlasterCharacter::AimButtonPressed);
+	//PlayerInputComponent->BindAction("Aim", IE_Released, this, &ABlasterCharacter::AimButtonReleased);
+	//PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ABlasterCharacter::FireButtonPressed);
+	//PlayerInputComponent->BindAction("Fire", IE_Released, this, &ABlasterCharacter::FireButtonReleased);
+	//PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &ABlasterCharacter::ReloadButtonPressed);
+	//PlayerInputComponent->BindAction("ThrowGrenade", IE_Pressed, this, &ABlasterCharacter::GrenadeButtonPressed);
 }
 
 void ABlasterCharacter::PostInitializeComponents()
@@ -693,6 +704,16 @@ void ABlasterCharacter::PlayerMove()
     Direction = FTransform(GetControlRotation()).TransformVector(Direction);
     AddMovementInput(Direction);
     Direction = FVector::ZeroVector;
+}
+
+void ABlasterCharacter::RunButtonPressed()
+{
+    GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+}
+
+void ABlasterCharacter::RunButtonReleased()
+{
+    GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
 void ABlasterCharacter::EquipButtonPressed()
